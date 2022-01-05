@@ -4,15 +4,21 @@
 
 import { MigrationsContract } from "./Migrations";
 import { MunicoinContract } from "./Municoin";
+import { MunicoinExchangeContract } from "./MunicoinExchange";
 
 declare global {
   namespace Truffle {
     interface Artifacts {
       require(name: "Migrations"): MigrationsContract;
       require(name: "Municoin"): MunicoinContract;
+      require(name: "MunicoinExchange"): MunicoinExchangeContract;
     }
   }
 }
 
 export { MigrationsContract, MigrationsInstance } from "./Migrations";
 export { MunicoinContract, MunicoinInstance } from "./Municoin";
+export {
+  MunicoinExchangeContract,
+  MunicoinExchangeInstance,
+} from "./MunicoinExchange";
