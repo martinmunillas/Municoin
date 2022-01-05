@@ -1,3 +1,3 @@
-# Web3 React Boilerplate
+# Municoin
 
-Clone this project have a fast launch and create your dapp with react, ethereum, and web3(oh and typescript ;D).
+Municoin is a cryptocurrency done in solidity in the ethereum blockchain following the [ERC-20](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/) standard
