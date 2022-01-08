@@ -2,11 +2,18 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 
-const config: webpack.Configuration = {
+import { Configuration as WebpackConfiguration } from "webpack";
+import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+interface Configuration extends WebpackConfiguration {
+  devServer?: WebpackDevServerConfiguration;
+}
+
+const config: Configuration = {
   entry: "./src/frontend",
   output: {
     path: path.resolve(__dirname, "./build/frontend"),
     filename: "bundle.js",
+    publicPath: "/",
   },
   mode: "development",
   module: {
@@ -17,6 +24,10 @@ const config: webpack.Configuration = {
         exclude: /node_modules/,
       },
     ],
+  },
+  devServer: {
+    open: true,
+    historyApiFallback: true,
   },
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],

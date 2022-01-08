@@ -8,22 +8,93 @@ import { EventData, PastEventOptions } from "web3-eth-contract";
 export interface MunicoinExchangeContract
   extends Truffle.Contract<MunicoinExchangeInstance> {
   "new"(
-    _municoinAddress: string,
+    _municoin: string,
+    _price: number | BN | string,
     meta?: Truffle.TransactionDetails
   ): Promise<MunicoinExchangeInstance>;
 }
 
-type AllEvents = never;
+export interface Sell {
+  name: "Sell";
+  args: {
+    _seller: string;
+    _amount: BN;
+    0: string;
+    1: BN;
+  };
+}
+
+type AllEvents = Sell;
 
 export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
-  admin(txDetails?: Truffle.TransactionDetails): Promise<string>;
+  municoin(txDetails?: Truffle.TransactionDetails): Promise<string>;
 
-  municoinAddress(txDetails?: Truffle.TransactionDetails): Promise<string>;
+  price(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+  tokensSold(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+  buy: {
+    (
+      _amount: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _amount: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _amount: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _amount: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  closeExchange: {
+    (txDetails?: Truffle.TransactionDetails): Promise<
+      Truffle.TransactionResponse<AllEvents>
+    >;
+    call(txDetails?: Truffle.TransactionDetails): Promise<void>;
+    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+    estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+  };
 
   methods: {
-    admin(txDetails?: Truffle.TransactionDetails): Promise<string>;
+    municoin(txDetails?: Truffle.TransactionDetails): Promise<string>;
 
-    municoinAddress(txDetails?: Truffle.TransactionDetails): Promise<string>;
+    price(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    tokensSold(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    buy: {
+      (
+        _amount: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        _amount: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _amount: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _amount: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
+    };
+
+    closeExchange: {
+      (txDetails?: Truffle.TransactionDetails): Promise<
+        Truffle.TransactionResponse<AllEvents>
+      >;
+      call(txDetails?: Truffle.TransactionDetails): Promise<void>;
+      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+      estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+    };
   };
 
   getPastEvents(event: string): Promise<EventData[]>;

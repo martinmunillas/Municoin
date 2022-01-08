@@ -68,7 +68,9 @@ contract("Municoin", ([admin, other, other2]) => {
     });
     assert.equal(logs.length, 1);
     assert.equal(logs[0].event, "Transfer");
+    // @ts-ignore
     assert.equal(logs[0].args._from, admin);
+    // @ts-ignore
     assert.equal(logs[0].args._to, other);
     assert.equal(logs[0].args._value.toNumber(), transferAmount);
   });
@@ -90,7 +92,9 @@ contract("Municoin", ([admin, other, other2]) => {
     const { logs } = await municoin.approve(other, 3, { from: admin });
     assert.equal(logs.length, 1);
     assert.equal(logs[0].event, "Approval");
+    // @ts-ignore
     assert.equal(logs[0].args._owner, admin);
+    // @ts-ignore
     assert.equal(logs[0].args._spender, other);
     assert.equal(logs[0].args._value.toNumber(), 3);
   });
@@ -149,7 +153,9 @@ contract("Municoin", ([admin, other, other2]) => {
     );
     assert.equal(logs.length, 1);
     assert.equal(logs[0].event, "Transfer");
+    // @ts-ignore
     assert.equal(logs[0].args._from, admin);
+    // @ts-ignore
     assert.equal(logs[0].args._to, other2);
     assert.equal(logs[0].args._value.toNumber(), transferAmount);
   });

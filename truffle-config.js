@@ -13,6 +13,7 @@ module.exports = {
   test_directory: "./src/__test__",
   migrations_directory: path.resolve(__dirname, "./src/migrations"),
   contracts_directory: "./src/contracts/",
+  contracts_build_directory: "./src/abis/",
   compilers: {
     solc: {
       version: "^0.8.10",
