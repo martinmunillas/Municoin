@@ -1,12 +1,15 @@
 import { Box, Flex, Heading, Text } from "@quaantum/components";
+import { ethers } from "ethers";
 import React from "react";
 import { useMunicoin } from "../hooks/useMunicoin";
+import { useMunicoinExchange } from "../hooks/useMunicoinExchange";
 import { formatNumber } from "../utils/formatNumber";
 
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = ({ children }) => {
-  const { loading, totalSupply } = useMunicoin();
+  const { loading, totalSupply, balance } = useMunicoin();
+  const { price } = useMunicoinExchange();
 
   if (loading) return <div>Loading...</div>;
 
@@ -24,7 +27,10 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
           <Text>
             Total supply: {formatNumber(totalSupply?.toString() || "")}
           </Text>
-          <Text>Current price: {}</Text>
+          <Text>
+            Current price: {ethers.utils.formatEther(price || "0")} ETH
+          </Text>
+          <Text>Your Balance: {formatNumber(balance?.toString() || "")}</Text>
         </Flex>
       </Flex>
       {children}

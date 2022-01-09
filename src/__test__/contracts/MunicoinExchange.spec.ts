@@ -12,9 +12,15 @@ contract("MunicoinExchange", () => {
     assert.notEqual(municoinAddress, "0x0");
   });
 
-  it("has a 0.0001 eth price", async () => {
+  it("has a 0 eth price", async () => {
     const municoinExchange = await MunicoinExchange.deployed();
-    const price = (await municoinExchange.price()).toString();
-    assert.equal(price, web3.utils.toWei("0.0001", "ether"));
+    const price = (await municoinExchange.price()).toNumber();
+    assert.equal(price, 0);
+  });
+
+  it("has 0 availability", async () => {
+    const municoinExchange = await MunicoinExchange.deployed();
+    const availability = (await municoinExchange.available()).toNumber();
+    assert.equal(availability, 0);
   });
 });

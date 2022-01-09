@@ -3,9 +3,5 @@ const MunicoinExchange = artifacts.require("MunicoinExchange");
 
 module.exports = async function (deployer) {
   await deployer.deploy(Municoin, 1_000_000);
-  await deployer.deploy(
-    MunicoinExchange,
-    Municoin.address,
-    web3.utils.toWei("0.0001", "ether")
-  );
+  await deployer.deploy(MunicoinExchange, Municoin.address);
 };

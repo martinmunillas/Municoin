@@ -14,24 +14,67 @@ export interface MunicoinExchangeContract
   ): Promise<MunicoinExchangeInstance>;
 }
 
-export interface Sell {
-  name: "Sell";
+export interface Buy {
+  name: "Buy";
   args: {
-    _seller: string;
-    _amount: BN;
+    buyer: string;
+    amount: BN;
     0: string;
     1: BN;
   };
 }
 
-type AllEvents = Sell;
+export interface Close {
+  name: "Close";
+  args: {
+    amount: BN;
+    price: BN;
+    0: BN;
+    1: BN;
+  };
+}
+
+export interface PriceChange {
+  name: "PriceChange";
+  args: {
+    newPrice: BN;
+    0: BN;
+  };
+}
+
+type AllEvents = Buy | Close | PriceChange;
 
 export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
+  available(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
   municoin(txDetails?: Truffle.TransactionDetails): Promise<string>;
 
   price(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
-  tokensSold(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+  transactionCount(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+  sell: {
+    (
+      _amount: number | BN | string,
+      _price: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _amount: number | BN | string,
+      _price: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _amount: number | BN | string,
+      _price: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _amount: number | BN | string,
+      _price: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
 
   buy: {
     (
@@ -52,6 +95,24 @@ export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
     ): Promise<number>;
   };
 
+  closeTransaction: {
+    (id: number | BN | string, txDetails?: Truffle.TransactionDetails): Promise<
+      Truffle.TransactionResponse<AllEvents>
+    >;
+    call(
+      id: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      id: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      id: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
   closeExchange: {
     (txDetails?: Truffle.TransactionDetails): Promise<
       Truffle.TransactionResponse<AllEvents>
@@ -62,11 +123,36 @@ export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
   };
 
   methods: {
+    available(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
     municoin(txDetails?: Truffle.TransactionDetails): Promise<string>;
 
     price(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
-    tokensSold(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+    transactionCount(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    sell: {
+      (
+        _amount: number | BN | string,
+        _price: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        _amount: number | BN | string,
+        _price: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _amount: number | BN | string,
+        _price: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _amount: number | BN | string,
+        _price: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
+    };
 
     buy: {
       (
@@ -83,6 +169,25 @@ export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
       ): Promise<string>;
       estimateGas(
         _amount: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
+    };
+
+    closeTransaction: {
+      (
+        id: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        id: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        id: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        id: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<number>;
     };
