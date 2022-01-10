@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useAsyncEffect } from "./useAsyncEffect";
 import { useContract } from "./useContract";
 import type { ethers } from "ethers";
+import { useEthers } from "./useEthers";
 
 export const useMunicoin = () => {
-  const { contract, account, ...otherContract } = useContract(
+  const { contract, loading, error } = useContract(
     MunicoinAbi.abi,
     MunicoinAbi.networks
   );
+  const { account } = useEthers();
   const [totalSupply, setTotalSupply] = useState<ethers.BigNumber>();
   const [balance, setBalance] = useState<ethers.BigNumber>();
 
@@ -30,6 +32,7 @@ export const useMunicoin = () => {
     totalSupply,
     account,
     balance,
-    ...otherContract,
+    error,
+    loading,
   };
 };

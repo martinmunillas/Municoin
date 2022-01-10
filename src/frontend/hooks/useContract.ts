@@ -7,7 +7,7 @@ export const useContract = (
   abi: ethers.ContractInterface,
   networks: Record<string, { address: string }>
 ) => {
-  const { provider, ...otherEthers } = useEthers();
+  const { provider, signer } = useEthers();
   const [contract, setContract] = useState<ethers.Contract>();
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,11 +26,15 @@ export const useContract = (
       return;
     }
 
-    const contract = new ethers.Contract(network.address, abi, provider);
+    const contract = new ethers.Contract(
+      network.address,
+      abi,
+      signer ? signer : provider
+    );
 
     setContract(contract);
     setLoading(false);
-  }, [provider]);
+  }, [provider, signer]);
 
-  return { contract, error, loading, ...otherEthers };
+  return { contract, error, loading };
 };

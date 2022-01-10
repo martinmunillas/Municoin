@@ -5,7 +5,7 @@ import { useAsyncEffect } from "./useAsyncEffect";
 import { useContract } from "./useContract";
 
 export const useMunicoinExchange = () => {
-  const { contract, ...rest } = useContract(
+  const { contract } = useContract(
     MunicoinExchangeAbi.abi,
     MunicoinExchangeAbi.networks
   );
@@ -19,5 +19,5 @@ export const useMunicoinExchange = () => {
     setPrice(price);
   }, [contract]);
 
-  return { contract, price, ...rest };
+  return { municoinExchange: contract, price };
 };
