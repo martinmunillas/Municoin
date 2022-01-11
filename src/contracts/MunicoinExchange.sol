@@ -82,9 +82,9 @@ contract MunicoinExchange {
         });
         transactionCount++;
 
-        handleNewTransactionSideEffects();
-
         openTransactions.push(pending);
+
+        handleNewTransactionSideEffects();
     }
 
     function buy(uint256 _amount) public payable {
@@ -117,6 +117,7 @@ contract MunicoinExchange {
             }
         }
 
+        refreshPrice();
         emit Buy(msg.sender, _amount);
     }
 
@@ -140,6 +141,7 @@ contract MunicoinExchange {
                 return;
             }
         }
+        refreshPrice();
     }
 
     function getPrice(uint256 _amount) private view returns (uint256) {
