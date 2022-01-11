@@ -1,4 +1,4 @@
-import { Box, Button, Input, Text } from "@quaantum/components";
+import { Box, Button, Heading, Input, Text } from "@quaantum/components";
 import { ethers } from "ethers";
 import React, { FormEventHandler, useEffect, useState } from "react";
 import { useMunicoin } from "../hooks/useMunicoin";
@@ -38,14 +38,15 @@ const SellTokens: React.FC<SellTokensProps> = ({}) => {
   };
 
   return (
-    <Box as="form" onSubmit={handleSave}>
+    <Box as="form" onSubmit={handleSave} w="50%">
+      <Heading>Sell</Heading>
       {error && (
         <Text bgColor="red" color="white" p="10px" r="10px">
           {error}
         </Text>
       )}
       <Box>
-        <label>Amount</label>
+        <Box>Amount</Box>
         <Input
           value={amount}
           onChange={(e) => {
@@ -56,7 +57,7 @@ const SellTokens: React.FC<SellTokensProps> = ({}) => {
         />
       </Box>
       <Box>
-        <label>Price</label>
+        <Box>Price</Box>
         <Input
           value={price}
           onChange={(e) => {

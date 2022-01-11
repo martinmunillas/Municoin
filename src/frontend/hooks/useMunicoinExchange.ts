@@ -23,6 +23,7 @@ export const useMunicoinExchange = () => {
   );
   const [price, setPrice] = useState<ethers.BigNumber>();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [available, setAvailable] = useState<ethers.BigNumber>();
 
   useAsyncEffect(async () => {
     if (!contract) {
@@ -30,11 +31,13 @@ export const useMunicoinExchange = () => {
     }
     const [
       price,
+      available,
       buyTransactionsLength,
       openTransactionsLength,
       closedTransactionsLength,
     ] = await Promise.all([
       contract.price(),
+      contract.available(),
       contract.buyTransactionsLength(),
       contract.openTransactionsLength(),
       contract.closedTransactionsLength(),
@@ -72,11 +75,13 @@ export const useMunicoinExchange = () => {
     );
 
     setPrice(price);
+    setAvailable(available);
   }, [contract]);
 
   return {
     municoinExchange: contract,
     price,
     transactions,
+    available,
   };
 };

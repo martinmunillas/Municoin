@@ -9,7 +9,7 @@ interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = ({ children }) => {
   const { loading, totalSupply, balance } = useMunicoin();
-  const { price } = useMunicoinExchange();
+  const { price, available } = useMunicoinExchange();
 
   if (loading) return <div>Loading...</div>;
 
@@ -24,6 +24,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
         <Heading>Municoin</Heading>
 
         <Flex gap="20px">
+          <Text>Available: {formatNumber(available?.toString() || "")}</Text>
           <Text>
             Total supply: {formatNumber(totalSupply?.toString() || "")}
           </Text>
@@ -33,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
           <Text>Your Balance: {formatNumber(balance?.toString() || "")}</Text>
         </Flex>
       </Flex>
-      {children}
+      <Box p="30px">{children}</Box>
     </Box>
   );
 };

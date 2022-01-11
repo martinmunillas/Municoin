@@ -8,7 +8,7 @@ interface AllTransactionsProps {}
 const AllTransactions: React.FC<AllTransactionsProps> = ({}) => {
   const { transactions } = useMunicoinExchange();
   return (
-    <Box m="30px">
+    <Box>
       <Heading>All Transactions</Heading>
       <Grid gridTemplateColumns="1fr 1fr" gap="20px">
         {transactions.map((tx) => (
