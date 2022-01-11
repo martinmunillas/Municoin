@@ -4,9 +4,10 @@ import { useAsyncEffect } from "./useAsyncEffect";
 import { useContract } from "./useContract";
 import type { ethers } from "ethers";
 import { useEthers } from "./useEthers";
+import { Municoin } from "../../@types/ethers";
 
 export const useMunicoin = () => {
-  const { contract, loading, error } = useContract(
+  const { contract, loading, error } = useContract<Municoin>(
     MunicoinAbi.abi,
     MunicoinAbi.networks
   );

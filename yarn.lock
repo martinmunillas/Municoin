@@ -1340,10 +1340,18 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
 
-"@typechain/truffle-v5@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@typechain/truffle-v5/-/truffle-v5-6.0.0.tgz#5d70fc6370269bf77bb43ff09a248f3cbf8da627"
-  integrity sha512-6tiBYdFv4AOf5NuqsIEkvA1LgIU+U4YoZLNkuk5O6tJNibum/6O4lBvPN3d2tWtfVUrkbFhr4lM+VbU8IUHO4w==
+"@typechain/ethers-v5@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@typechain/ethers-v5/-/ethers-v5-9.0.0.tgz#6aa93bea7425c0463bd8a61eea3643540ef851bd"
+  integrity sha512-bAanuPl1L2itaUdMvor/QvwnIH+TM/CmG00q17Ilv3ZZMeJ2j8HcarhgJUZ9pBY1teBb85P8cC03dz3mSSx+tQ==
+  dependencies:
+    lodash "^4.17.15"
+    ts-essentials "^7.0.1"
+
+"@typechain/truffle-v5@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@typechain/truffle-v5/-/truffle-v5-7.0.0.tgz#f7ab68186de8b2ef0a3f932837f6380a6c481360"
+  integrity sha512-TeK3EjbWzRyvR7Ags6I05UmDnWDGOxZnfUkFEJf9e5bheipDqvaoMYThcw3AObVfYaC6VA6UdelwPRtK6BC8lg==
   dependencies:
     lodash "^4.17.15"
 

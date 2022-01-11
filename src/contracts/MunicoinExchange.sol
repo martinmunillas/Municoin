@@ -3,12 +3,21 @@ pragma solidity ^0.8.10;
 
 import "./Municoin.sol";
 
-struct Transaction {
+struct SellTransaction {
     uint256 id;
     address owner;
     uint256 amount;
     uint256 price;
     uint256 amountSold;
+    uint256 timestamp;
+}
+
+struct BuyTransaction {
+    uint256 id;
+    address owner;
+    uint256 amount;
+    uint256 price;
+    uint256 timestamp;
 }
 
 contract MunicoinExchange {
@@ -18,8 +27,23 @@ contract MunicoinExchange {
     uint256 public available;
     uint256 public transactionCount;
 
-    Transaction[] openTransactions;
-    Transaction[] closedTransactions;
+    SellTransaction[] public openTransactions;
+
+    function openTransactionsLength() public view returns (uint256) {
+        return openTransactions.length;
+    }
+
+    SellTransaction[] public closedTransactions;
+
+    function closedTransactionsLength() public view returns (uint256) {
+        return closedTransactions.length;
+    }
+
+    BuyTransaction[] public buyTransactions;
+
+    function buyTransactionsLength() public view returns (uint256) {
+        return buyTransactions.length;
+    }
 
     modifier isAdmin() {
         require(msg.sender == admin);
@@ -48,13 +72,15 @@ contract MunicoinExchange {
         );
         require(municoin.transferFrom(msg.sender, address(this), _amount));
 
-        Transaction memory pending = Transaction({
+        SellTransaction memory pending = SellTransaction({
             id: transactionCount,
             owner: msg.sender,
             amount: _amount,
             price: _price,
-            amountSold: 0
+            amountSold: 0,
+            timestamp: block.timestamp
         });
+        transactionCount++;
 
         handleNewTransactionSideEffects();
 
@@ -65,6 +91,16 @@ contract MunicoinExchange {
         require(available >= _amount, "Not enough tokens available");
         require(msg.value >= getPrice(_amount), "Not enough ETH");
         require(municoin.transfer(msg.sender, _amount));
+
+        BuyTransaction memory pending = BuyTransaction({
+            id: transactionCount,
+            owner: msg.sender,
+            amount: _amount,
+            price: getPrice(_amount),
+            timestamp: block.timestamp
+        });
+        transactionCount++;
+        buyTransactions.push(pending);
 
         uint256 _pendingAmount = _amount;
         while (_pendingAmount > 0) {
@@ -77,16 +113,16 @@ contract MunicoinExchange {
             } else {
                 _pendingAmount -= _transactionAvailable;
                 openTransactions[0].amountSold += _transactionAvailable;
-                closeOpenTransactionAt(0);
+                closeOpenSellTransactionAt(0);
             }
         }
 
         emit Buy(msg.sender, _amount);
     }
 
-    function closeOpenTransactionAt(uint256 _index) private {
+    function closeOpenSellTransactionAt(uint256 _index) private {
         require(_index < openTransactions.length);
-        Transaction memory closed = openTransactions[_index];
+        SellTransaction memory closed = openTransactions[_index];
         payable(closed.owner).transfer(closed.amountSold * closed.price);
         closedTransactions.push(closed);
         emit Close(closed.amountSold, closed.price);
@@ -96,11 +132,11 @@ contract MunicoinExchange {
         openTransactions.pop();
     }
 
-    function closeTransaction(uint256 id) public {
+    function closeSellTransaction(uint256 id) public {
         for (uint256 i = 0; i < openTransactions.length; i++) {
             if (openTransactions[i].id == id) {
                 require(openTransactions[i].owner == msg.sender, "Not owner");
-                closeOpenTransactionAt(i);
+                closeOpenSellTransactionAt(i);
                 return;
             }
         }
@@ -137,11 +173,11 @@ contract MunicoinExchange {
         available = _available;
     }
 
-    function sortTransactions() private {
+    function sortOpenSellTransactions() private {
         for (uint256 i = 0; i < openTransactions.length; i++) {
             for (uint256 j = i + 1; j < openTransactions.length; j++) {
                 if (openTransactions[i].price > openTransactions[j].price) {
-                    Transaction memory temp = openTransactions[i];
+                    SellTransaction memory temp = openTransactions[i];
                     openTransactions[i] = openTransactions[j];
                     openTransactions[j] = temp;
                 }
@@ -151,7 +187,7 @@ contract MunicoinExchange {
 
     function handleNewTransactionSideEffects() private {
         refreshPrice();
-        sortTransactions();
+        sortOpenSellTransactions();
     }
 
     function closeExchange() public isAdmin {

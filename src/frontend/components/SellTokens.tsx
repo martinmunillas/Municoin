@@ -3,16 +3,10 @@ import { ethers } from "ethers";
 import React, { FormEventHandler, useEffect, useState } from "react";
 import { useMunicoin } from "../hooks/useMunicoin";
 import { useMunicoinExchange } from "../hooks/useMunicoinExchange";
+import { isFloat } from "../utils/isFloat";
+import { isInt } from "../utils/isInt";
 
 interface SellTokensProps {}
-
-const isInt = (value: string) => {
-  return /^\d+$/.test(value);
-};
-
-const isFloat = (value: string) => {
-  return /^\d+(\.\d{0,2})?$/.test(value);
-};
 
 const SellTokens: React.FC<SellTokensProps> = ({}) => {
   const { price: currPrice } = useMunicoinExchange();
@@ -39,7 +33,7 @@ const SellTokens: React.FC<SellTokensProps> = ({}) => {
     }
 
     const priceInWei = ethers.utils.parseEther(price);
-    await municoin?.approve(municoinExchange?.address, amount);
+    await municoin?.approve(municoinExchange?.address || "", amount);
     await municoinExchange?.sell(amount, priceInWei);
   };
 

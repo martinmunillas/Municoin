@@ -3,12 +3,12 @@ import { useState } from "react";
 import { ethers } from "ethers";
 import { useAsyncEffect } from "./useAsyncEffect";
 
-export const useContract = (
+export const useContract = <T extends ethers.Contract>(
   abi: ethers.ContractInterface,
   networks: Record<string, { address: string }>
 ) => {
   const { provider, signer } = useEthers();
-  const [contract, setContract] = useState<ethers.Contract>();
+  const [contract, setContract] = useState<T>();
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -32,7 +32,7 @@ export const useContract = (
       signer ? signer : provider
     );
 
-    setContract(contract);
+    setContract(contract as T);
     setLoading(false);
   }, [provider, signer]);
 

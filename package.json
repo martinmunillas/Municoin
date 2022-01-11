@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "@typechain/truffle-v5": "^6.0.0",
+    "@typechain/ethers-v5": "^9.0.0",
+    "@typechain/truffle-v5": "^7.0.0",
     "@types/chai": "^4.2.0j",
     "@types/mocha": "^9.0.0",
     "@types/node": "^17.0.5",
@@ -28,7 +29,7 @@
     "truffle": "^5.4.26"
   },
   "scripts": {
-    "gen": "truffle compile && typechain --target=truffle-v5 --out-dir=./src/@types './src/abis/**/*.json'",
+    "gen": "truffle compile && typechain --target=ethers-v5 --out-dir=./src/@types/ethers './src/abis/**/*.json' && typechain --target=truffle-v5 --out-dir=./src/@types/truffle './src/abis/**/*.json'",
     "prepare": "yarn gen",
     "test": "truffle test",
     "tsc": "tsc --noEmit",

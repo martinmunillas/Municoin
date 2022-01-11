@@ -10385,12 +10385,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x697F4737e6b8eFCc1bbcfe7BE695c107c814c41e",
-      "transactionHash": "0xffbbf4380cc8bde873c141177a22dd64518f3d30019d33d82c948495683fd9c1"
+      "address": "0xCec27fB8908E1Df0B0f91F3121DE82c8F75cFc10",
+      "transactionHash": "0x05c6630419db9b862406eefd4815a6a09f653ad7ba3315513fb6aa6b9d8a12c6"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-01-09T23:00:00.778Z",
+  "updatedAt": "2022-01-11T04:28:24.406Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

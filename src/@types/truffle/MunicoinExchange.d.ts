@@ -9,7 +9,6 @@ export interface MunicoinExchangeContract
   extends Truffle.Contract<MunicoinExchangeInstance> {
   "new"(
     _municoin: string,
-    _price: number | BN | string,
     meta?: Truffle.TransactionDetails
   ): Promise<MunicoinExchangeInstance>;
 }
@@ -47,11 +46,32 @@ type AllEvents = Buy | Close | PriceChange;
 export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
   available(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
+  buyTransactions(
+    arg0: number | BN | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ 0: BN; 1: string; 2: BN; 3: BN; 4: BN }>;
+
+  closedTransactions(
+    arg0: number | BN | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ 0: BN; 1: string; 2: BN; 3: BN; 4: BN; 5: BN }>;
+
   municoin(txDetails?: Truffle.TransactionDetails): Promise<string>;
+
+  openTransactions(
+    arg0: number | BN | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ 0: BN; 1: string; 2: BN; 3: BN; 4: BN; 5: BN }>;
 
   price(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
   transactionCount(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+  openTransactionsLength(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+  closedTransactionsLength(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+  buyTransactionsLength(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
   sell: {
     (
@@ -95,7 +115,7 @@ export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
     ): Promise<number>;
   };
 
-  closeTransaction: {
+  closeSellTransaction: {
     (id: number | BN | string, txDetails?: Truffle.TransactionDetails): Promise<
       Truffle.TransactionResponse<AllEvents>
     >;
@@ -125,11 +145,34 @@ export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
   methods: {
     available(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
+    buyTransactions(
+      arg0: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ 0: BN; 1: string; 2: BN; 3: BN; 4: BN }>;
+
+    closedTransactions(
+      arg0: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ 0: BN; 1: string; 2: BN; 3: BN; 4: BN; 5: BN }>;
+
     municoin(txDetails?: Truffle.TransactionDetails): Promise<string>;
+
+    openTransactions(
+      arg0: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ 0: BN; 1: string; 2: BN; 3: BN; 4: BN; 5: BN }>;
 
     price(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
     transactionCount(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    openTransactionsLength(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    closedTransactionsLength(
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN>;
+
+    buyTransactionsLength(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
     sell: {
       (
@@ -173,7 +216,7 @@ export interface MunicoinExchangeInstance extends Truffle.ContractInstance {
       ): Promise<number>;
     };
 
-    closeTransaction: {
+    closeSellTransaction: {
       (
         id: number | BN | string,
         txDetails?: Truffle.TransactionDetails
