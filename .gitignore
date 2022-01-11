@@ -1,3 +1,4 @@
 build
 node_modules
-types/truffle-contracts
+src/@types/truffle/
+src/@types/ethers/
